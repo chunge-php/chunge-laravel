@@ -1,17 +1,18 @@
 {
     "name": "chunge/laravel",
-    "description": "在安装laravel时候初始化基本结构方便快速入手",
-    "type": "library",
+    "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快熟入手使用",
+    "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "chunge\\laravel\\": "src/"
+            "Chunge\\Laravel\\": "src/"
         }
     },
     "authors": [{
         "name": "chunge-php"
     }],
+    "minimum-stability": "dev",
     "require": {
-        "php": ">=7.3"
+        "php": "^7.3"
     }
-
 }
