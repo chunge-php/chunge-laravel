@@ -1,0 +1,28 @@
+{
+    "name": "chunge/laravel",
+    "description": "在安装laravel时候初始化基本结构方便快速入手",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Chunge\\Laravel\\": "src/"
+        }
+    },
+    "authors": [{
+        "name": "PhpChunGe"
+    }],
+    "require": {
+        "php": ">=7.3"
+    },
+    "config": {
+        "github-oauth": {
+            "github.com": "YOUR_GITHUB_TOKEN"
+        },
+        "http-basic": {
+            "packagist.org": {
+                "username": "YOUR_PACKAGIST_USERNAME",
+                "password": "YOUR_PACKAGIST_API_TOKEN"
+            }
+        }
+    }
+
+}
