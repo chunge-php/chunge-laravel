@@ -4,25 +4,14 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Chunge\\Laravel\\": "src/"
+            "chunge\\laravel\\": "src/"
         }
     },
     "authors": [{
-        "name": "PhpChunGe"
+        "name": "chunge-php"
     }],
     "require": {
         "php": ">=7.3"
-    },
-    "config": {
-        "github-oauth": {
-            "github.com": "YOUR_GITHUB_TOKEN"
-        },
-        "http-basic": {
-            "packagist.org": {
-                "username": "YOUR_PACKAGIST_USERNAME",
-                "password": "YOUR_PACKAGIST_API_TOKEN"
-            }
-        }
     }
 
 }
