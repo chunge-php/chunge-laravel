@@ -13,6 +13,6 @@ class ChungeLaravel
    */
   public static function postInstall()
   {
-    echo '执行初始化'."\n";
+    echo '执行初始化' . "\n";
   }
 }
