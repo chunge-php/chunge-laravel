@@ -8,4 +8,11 @@ class ChungeLaravel
   {
     echo '1.0.0' . "\n";
   }
+  /**
+   * 初始化框架
+   */
+  public static function postInstall()
+  {
+    echo '执行初始化'."\n";
+  }
 }
