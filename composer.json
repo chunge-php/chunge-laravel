@@ -6,10 +6,7 @@
     "autoload": {
         "psr-4": {
             "Chunge\\Laravel\\": "src/"
-        },
-        "files": [
-            "app/Support/Helper.php"
-        ]
+        }
     },
     "authors": [
         {
