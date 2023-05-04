@@ -4,6 +4,9 @@
     "type": "project",
     "license": "MIT",
     "autoload": {
+        "files": [
+            "src/Support/Helper.php"
+        ],
         "psr-4": {
             "Chunge\\Laravel\\": "src/"
         }
@@ -28,14 +31,18 @@
         ]
     },
     "extra": {
-        "installer-paths": {
-            "../../app/Support/": [
-                "chunge/laravel"
-            ]
-        },
-        "autoload": {
+        "laravel": {
+            "providers": [
+                "Chunge\\Laravel\\"
+            ],
+            "aliases": {
+                "MyFacade": "Chunge\\Laravel\\"
+            },
             "files": [
-                "../../app/Support/Helper.php"
+                {
+                    "from": "src/Support/Helper.php",
+                    "to": "app/Support/Helper.php"
+                }
             ]
         }
     },
