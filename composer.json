@@ -11,14 +11,40 @@
             "app/Support/Helper.php"
         ]
     },
-    "authors": [{
-        "name": "chunge-php"
-    }],
+    "authors": [
+        {
+            "name": "chunge-php"
+        }
+    ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.3"
+        "php": "^7.3",
+        "composer/installers": "^2.0@dev"
     },
     "scripts": {
-        "post-install-cmd": "ChungeLaravel::postInstall"
+        "post-install-cmd": [
+            "ChungeLaravel::postInstall",
+            "cp src/Support/Helper.php ../../app/Support/"
+        ],
+        "post-update-cmd": [
+            "cp src/Support/Helper.php ../../app/Support/"
+        ]
+    },
+    "extra": {
+        "installer-paths": {
+            "../../app/Support/": [
+                "chunge/laravel"
+            ]
+        },
+        "autoload": {
+            "files": [
+                "../../app/Support/Helper.php"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
     }
 }
