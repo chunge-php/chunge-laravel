@@ -25,11 +25,13 @@
         "post-install-cmd": [
             "ChungeLaravel::postInstall",
             "mkdir -p ./app/Support",
-            "cp src/Support/Helper.php ../../app/Support/"
+            "cp src/Support/Helper.php ../../app/Support/",
+            "php ./vendor/chunge/laravel/setup.php"
         ],
         "post-update-cmd": [
             "mkdir -p ./app/Support",
-            "cp src/Support/Helper.php ../../app/Support/"
+            "cp src/Support/Helper.php ../../app/Support/",
+            "php ./vendor/chunge/laravel/setup.php"
         ]
     },
     "extra": {
