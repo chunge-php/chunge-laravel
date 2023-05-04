@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 响应错误
  * @param int $status 状态码
