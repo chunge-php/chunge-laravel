@@ -24,20 +24,14 @@
     "scripts": {
         "post-install-cmd": [
             "ChungeLaravel::postInstall",
-            "cp src/Support/Helper.php ../../app/Support/"
+            "cp src/Support/Helper.php ../../app/Support/Helper.php"
         ],
         "post-update-cmd": [
-            "cp src/Support/Helper.php ../../app/Support/"
+            "cp src/Support/Helper.php ../../app/Support/Helper.php"
         ]
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Chunge\\Laravel\\"
-            ],
-            "aliases": {
-                "MyFacade": "Chunge\\Laravel\\"
-            },
             "files": [
                 {
                     "from": "src/Support/Helper.php",
