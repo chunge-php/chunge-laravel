@@ -35,6 +35,15 @@
             "mkdir -p ./app/Support",
             "cp src/Support/Helper.php ../../app/Support/",
             "php ./vendor/chunge/laravel/setup.php"
+        ],
+        "post-package-install":[
+            "echo '哈哈哈'"
+        ],
+        "post-package-update":[
+            "echo '哈哈哈'"
+        ],
+        "post-autoload-dump":[
+            "echo '哈哈哈'"
         ]
     },
     "extra": {
