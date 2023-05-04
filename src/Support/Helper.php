@@ -11,6 +11,7 @@ function error(int $status = 1001, string $message = 'error', array $attache = [
     $res = json_encode(array('status' => $status, 'message' => $message, 'data' => $data, 'attache' => $attache, 'token' => session('token', '')), JSON_UNESCAPED_UNICODE);
     exit($res);
 }
+
 /**
  * 正常响应接口
  * @param array $data 接口返回数据
