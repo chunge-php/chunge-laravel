@@ -24,10 +24,12 @@
     "scripts": {
         "post-install-cmd": [
             "ChungeLaravel::postInstall",
-            "cp src/Support/Helper.php ../../app/Support/Helper.php"
+            "mkdir -p ./app/Support",
+            "cp src/Support/Helper.php ../../app/Support/"
         ],
         "post-update-cmd": [
-            "cp src/Support/Helper.php ../../app/Support/Helper.php"
+            "mkdir -p ./app/Support",
+            "cp src/Support/Helper.php ../../app/Support/"
         ]
     },
     "extra": {
