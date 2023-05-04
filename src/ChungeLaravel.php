@@ -6,7 +6,7 @@ class ChungeLaravel
 {
   public function version()
   {
-    echo '1.0.9' . "\n";
+    echo '1.1.0' . "\n";
   }
   /**
    * 初始化框架
