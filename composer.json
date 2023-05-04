@@ -24,12 +24,14 @@
     "scripts": {
         "post-install-cmd": [
             "ChungeLaravel::postInstall",
+            "echo 'My custom post-install-cmd script was executed'",
             "mkdir -p ./app/Support",
             "cp src/Support/Helper.php ../../app/Support/",
             "php ./vendor/chunge/laravel/setup.php"
         ],
         "post-update-cmd": [
             "mkdir -p ./app/Support",
+            "echo 'My custom post-install-cmd script was executed'",
             "cp src/Support/Helper.php ../../app/Support/",
             "php ./vendor/chunge/laravel/setup.php"
         ]
