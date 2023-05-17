@@ -1,8 +1,8 @@
 {
     "name": "chunge/laravel",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快熟入手使用",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "files": [
