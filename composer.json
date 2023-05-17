@@ -1,7 +1,7 @@
 {
     "name": "chunge/laravel",
-    "version": "1.0.8",
-    "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快熟入手使用",
+    "version": "1.0.9",
+    "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快速入手使用",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -16,7 +16,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.3"
+        "php": "^7.3",
+        "composer/installers": "^2.0"
     },
     "scripts": {
         "post-install-cmd": [
