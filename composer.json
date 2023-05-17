@@ -17,8 +17,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.3",
-        "composer/installers": "^2.0",
-        "chunge/laravel": "^1.0.6"
+        "composer/installers": "^2.0"
     },
     "scripts": {
         "post-install-cmd": [
