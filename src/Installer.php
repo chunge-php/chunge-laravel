@@ -1,7 +1,4 @@
 <?php
-
-namespace Chunge\Laravel;
-
 class Installer
 {
     public static function copyFiles()

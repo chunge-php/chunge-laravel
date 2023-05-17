@@ -5,13 +5,17 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
+        "files": [
+            "src/Support/Helper.php"
+        ],
         "psr-4": {
             "Chunge\\Laravel\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "chunge-php"
+            "name": "chunge-php",
+            "email": "drq.chunge.php@qq.com"
         }
     ],
     "minimum-stability": "stable",
