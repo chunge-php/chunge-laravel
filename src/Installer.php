@@ -8,10 +8,8 @@ class Installer
     {
         $sourcePath = __DIR__ . '/Support'; // 指定要复制的文件夹路径
         $destinationPath = base_path('public'); // Laravel中公共文件夹的路径
-
         // 执行文件复制操作
         self::recursiveCopy($sourcePath, $destinationPath);
-
         echo "Files copied successfully!";
     }
 
