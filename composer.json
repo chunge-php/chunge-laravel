@@ -1,5 +1,6 @@
 {
     "name": "chunge/laravel",
+    "version": "1.0.2",
     "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快熟入手使用",
     "type": "project",
     "license": "MIT",
@@ -23,19 +24,19 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "MyPackage\\Installer::copyFiles"
+            "Chunge\\Laravel\\Installer::copyFiles"
         ],
         "post-update-cmd": [
-            "MyPackage\\Installer::copyFiles"
+            "Chunge\\Laravel\\Installer::copyFiles"
         ],
         "post-package-install": [
-            "MyPackage\\Installer::copyFiles"
+            "Chunge\\Laravel\\Installer::copyFiles"
         ],
         "post-package-update": [
-            "MyPackage\\Installer::copyFiles"
+            "Chunge\\Laravel\\Installer::copyFiles"
         ],
         "post-autoload-dump": [
-            "MyPackage\\Installer::copyFiles"
+            "Chunge\\Laravel\\Installer::copyFiles"
         ]
     },
     "extra": {
