@@ -17,10 +17,10 @@
             "name": "chunge-php"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": "^7.3",
-        "composer/installers": "^2.0@dev"
+        "composer/installers": "^2.0"
     },
     "scripts": {
         "post-install-cmd": [
