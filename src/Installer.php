@@ -10,7 +10,7 @@ class Installer
         $destinationPath = __DIR__ .'/demos'; // Laravel中公共文件夹的路径
         // 执行文件复制操作
         self::recursiveCopy($sourcePath, $destinationPath);
-        echo "Files copied successfully!";
+        echo "执行成功 successfully!";
     }
 
     private static function recursiveCopy($source, $destination)
