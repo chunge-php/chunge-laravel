@@ -23,27 +23,19 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "echo '哈哈哈'",
-            "ChungeLaravel::postInstall",
-            "echo 'My custom post-install-cmd script was executed'",
-            "mkdir -p ./app/Support",
-            "cp src/Support/Helper.php ../../app/Support/",
-            "php ./vendor/chunge/laravel/setup.php"
+            "MyPackage\\Installer::copyFiles"
         ],
         "post-update-cmd": [
-            "echo '哈哈哈'",
-            "mkdir -p ./app/Support",
-            "cp src/Support/Helper.php ../../app/Support/",
-            "php ./vendor/chunge/laravel/setup.php"
+            "MyPackage\\Installer::copyFiles"
         ],
-        "post-package-install":[
-            "echo '哈哈哈'"
+        "post-package-install": [
+            "MyPackage\\Installer::copyFiles"
         ],
-        "post-package-update":[
-            "echo '哈哈哈'"
+        "post-package-update": [
+            "MyPackage\\Installer::copyFiles"
         ],
-        "post-autoload-dump":[
-            "echo '哈哈哈'"
+        "post-autoload-dump": [
+            "MyPackage\\Installer::copyFiles"
         ]
     },
     "extra": {
