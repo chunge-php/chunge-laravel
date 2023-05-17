@@ -5,9 +5,6 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "files": [
-            "src/Support/Helper.php"
-        ],
         "psr-4": {
             "Chunge\\Laravel\\": "src/"
         }
@@ -20,7 +17,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.3",
-        "composer/installers": "^2.0"
+        "composer/installers": "^2.0",
+        "chunge/laravel": "^1.0.6"
     },
     "scripts": {
         "post-install-cmd": [
