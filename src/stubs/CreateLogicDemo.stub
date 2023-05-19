@@ -1,0 +1,183 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+
+class CreateLogic extends Command
+{
+   /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'create:logic {class_name} {controller_name} {describe} {model?}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create logic';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        //获取参数
+        $args = $this->arguments();
+        //控制器模块名称 Admin Api
+        $controller_name = $args['controller_name'];
+        //控制器类名称
+        $class_name = $args['class_name'];
+        //是否创建模型层
+        $model  = $args['model'];
+
+        //描述
+        $describe = $args['describe'];
+        //创建模型层
+        if ($model) {
+            $this->createModel($class_name, $describe);
+        }
+        //创建逻辑层
+        $this->createLogic($controller_name, $class_name, $describe);
+        //创建控制层
+        $this->createController($controller_name, $class_name, $describe);
+        $this->createRequest($controller_name, $class_name, $describe);
+        //创建路由层
+        $this->createRoutes($controller_name, $class_name, $describe);
+        $this->info('一键创建逻辑成功 春哥牛逼' . logMyImg());
+    }
+    /**
+     * 创建模型层
+     */
+    public function createModel($class_name, $describe = '')
+    {
+        //模型层文件地址
+        Artisan::call("make:model Models/{$class_name} -fm"); //清除视图缓存
+    }
+    /**
+     * 控制层创建
+     */
+    public function createController($controller_name, $class_name, $describe)
+    {
+        //文件地址
+        $logic_file = app_path() . '/Http/Controllers' . "/{$controller_name}" . '/v1/' . $class_name . 'Controller.php';
+        $logic_path = dirname($logic_file); //返回路径中的目录部分
+        //获取模板,替换变量
+        $controller = file_get_contents(base_path('/stubs/my_controller.stub'));
+        $controller_default = file_get_contents(base_path('/stubs/my_default_controller.stub'));
+        $source = str_replace('{{controller_name}}', $controller_name, $controller);
+        $source = str_replace('{{controller_default}}', $controller_default, $source);
+        $source = str_replace('{{class_name}}', $class_name, $source);
+        $source = str_replace('{{describe}}', $describe, $source);
+        $this->createFileSend($logic_file, $logic_path, $source, '控制层');
+    }
+    /**
+     * 创建逻辑层
+     */
+    public function createLogic($controller_name, $class_name, $describe = '')
+    {
+        //逻辑层文件地址
+        $logic_file = app_path() . '/Logic' . "/{$controller_name}/" . $class_name . '.php';
+        //命名空间
+        $logic_path = dirname($logic_file); //返回路径中的目录部分
+        //获取模板,替换变量
+        $logic = file_get_contents(base_path('/stubs/my_logic.stub'));
+        $logic_default = file_get_contents(base_path('/stubs/my_default_logic.stub'));
+        $source = str_replace('{{namespace}}', $controller_name, $logic);
+        $source = str_replace('{{describe}}', $describe, $source);
+        $source = str_replace('{{class_name}}', $class_name, $source);
+        $source = str_replace('{{logic_default}}', $logic_default, $source);
+        $source = str_replace('{{model_name}}', $class_name, $source);
+        $this->createFileSend($logic_file, $logic_path, $source, '逻辑层');
+    }
+    /**
+     * 创建表单验证
+     */
+    public function createRequest($controller_name, $class_name, $describe = '')
+    {
+        //逻辑层文件地址
+        $logic_file = app_path() . '/Http/Requests' . "/{$controller_name}/Up" . $class_name . 'Request.php';
+
+        //命名空间
+        $logic_path = dirname($logic_file); //返回路径中的目录部分
+        //获取模板,替换变量
+        $request = file_get_contents(base_path('/stubs/my_request.stub'));
+        $source = str_replace('{{controller_name}}', $controller_name, $request);
+        $source = str_replace('{{class_name}}', $class_name, $source);
+        $source = str_replace('{{describe}}', $describe, $source);
+        $this->createFileSend($logic_file, $logic_path, $source, '表单验证层');
+    }
+    /**
+     * 创建路由
+     */
+    public function createRoutes($controller_name, $class_name, $describe)
+    {
+        //路由层文件地址
+        $controller =  str_replace('_', '/', toUnderScore($class_name));
+        //文件地址
+        $routes_file = base_path('routes\\' . strtolower($controller_name) . '.php');
+        $template = file_get_contents($routes_file);
+        $default_method = file_get_contents(base_path('/stubs/my_routes.stub'));
+        $source = str_replace('//addController', $default_method, $template);
+        $source = str_replace('{{controller}}', $controller, $source);
+        $source = str_replace('{{describe}}', $describe, $source);
+        $source = str_replace('{{class_name}}', $class_name . 'Controller', $source);
+
+        $controller_name_str  = str_replace('/', '.', $controller);
+        $source = str_replace('{{controller_name_str}}', $controller_name_str, $source);
+        $source = str_replace('{{controller_name}}', strtolower($controller_name), $source);
+        //写入
+        if (!file_put_contents($routes_file, $source)) {
+            $this->error('路由层追加失败！');
+            exit;
+        }
+        $this->info('文件重新加载中............');
+        exec('composer dump-autoload'); //重新加载文件
+        $this->info('文件重新加载成功............');
+        Artisan::call('cache:clear'); //清除应用缓存
+        Artisan::call('route:cache'); //清除路由缓存
+        Artisan::call('config:cache'); //清除配置缓存
+        Artisan::call('view:cache'); //清除视图缓存
+        $this->info('缓存已清除');
+    }
+    /**
+     * 执行文件创建
+     */
+    public function createFileSend($logic_file, $logic_path, $source, $message = '')
+    {
+        //是否已存在相同文件
+        if (file_exists($logic_file)) {
+            $this->error("{$message}文件已存在");
+            exit;
+        }
+        //创建
+        if (file_exists($logic_path) === false) {
+            if (mkdir($logic_path, 0777, true) === false) {
+                $this->error("{$message}目录" . $logic_path . '没有写入权限');
+                exit;
+            }
+        }
+        //写入
+        if (!file_put_contents($logic_file, $source)) {
+            $this->error("{$message}创建失败！");
+            exit;
+        }
+        $this->info("{$message}创建成功！");
+    }
+}
