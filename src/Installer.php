@@ -36,9 +36,10 @@ class Installer
     //创建安装标识文件
     private function CreateInstallJosinFile()
     {
-        $content  = json_encode([]);
+        $content = file_get_contents(__DIR__ . '\stubs\InstallDemo.stub');
         $project_path = $this->getBasePath();
-        $file_dir_path =  $project_path . 'storage/install.json';
+        $logic_file = $this->Config_path . '\install.php';
+        $file_dir_path =  $project_path . $logic_file;
         $this->overwriteFileContent($file_dir_path, $content);
     }
 
@@ -382,7 +383,7 @@ class Installer
     }
     public function BaseJianCe()
     {
-        $logic_file = 'storage/install.json';
+        $logic_file = $this->Config_path . '\install.php';
         $project_path = $this->getBasePath();
         $file_dir_path =  $project_path   . $logic_file;
 
