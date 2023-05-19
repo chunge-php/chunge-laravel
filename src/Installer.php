@@ -25,11 +25,14 @@ class Installer
         $this->CopyStubFile();
         $this->CopyRequestsFile();
         $this->CreateEnv();
-        $this->CreateInstallJosinFile();
+        $this->CreateDatabase();
         $this->CreateComposer();
         $this->CreateModels();
         $this->CreateLogicBase();
         $this->CreateLogicFileBase();
+
+        //创建安装记录标识
+        $this->CreateInstallJosinFile();
         echo "执行成功 successfully!" . PHP_EOL;
     }
 
@@ -117,6 +120,14 @@ class Installer
         $demo_name = 'LogicFileDemo';
         $message = '创建公用LogicFile逻辑层文件';
         $this->BaseLogic($file_name, $demo_name, $message);
+    }
+    private function CreateDatabase()
+    {
+        $content = file_get_contents(__DIR__ . '\stubs\DatabaseDemo.stub');
+        $project_path = $this->getBasePath();
+        $file_path = '\000_demo_table.php';
+        $file_dir_path =  $project_path . 'database\migrations'  . $file_path;
+        $this->createFileSend($file_dir_path, $content, '创建迁移模板文件');
     }
     //创建全局状态码
     private function ErrCode()
