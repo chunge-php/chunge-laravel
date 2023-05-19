@@ -7,7 +7,7 @@ class Installer
     private $commands_path = '/app/Console/Commands';
     private $Middleware_path = '/app/Http/Middleware';
     private $MyClass_path = '/app/MyClass';
-    private $Helper_path  = '/app/Support';
+    private $Support_path  = '/app/Support';
     private $Config_path  = '/config';
     private $routes_path  = '/routes';
     public  function copyFiles()
@@ -15,14 +15,16 @@ class Installer
         echo '开始执行安装';
         $this->createCommands();
         $this->CreateMiddleware();
-        $this->CreateJwt();
-        $this->CreateHelper();
+        $this->CreateMyClass();
+        $this->CreateSupport();
         $this->updateKernel();
+        $this->CreateRouteServiceProvider();
         $this->CreateRoutes();
         $this->CopyStubFile();
         $this->CopyRequestsFile();
         $this->CreateEnv();
         $this->CreateInstallJosinFile();
+        $this->CreateComposer();
         echo "执行成功 successfully!";
     }
 
@@ -129,6 +131,18 @@ class Installer
         $this->BaseMiddleware($file_name, $demo_name, $message);
     }
     //-----------------------------自定义类文件------------------------------------//
+    private function CreateMyClass()
+    {
+        $this->CreateJwt();
+        $this->CreateWxPay();
+    }
+    private function CreateWxPay()
+    {
+        $file_name = 'WxPay';
+        $demo_name = 'WxPayDemo';
+        $message = '创建WxPay文件';
+        $this->BaseMyClass($file_name, $demo_name, $message);
+    }
     //加密解密jwt文件
     private function CreateJwt()
     {
@@ -137,16 +151,29 @@ class Installer
         $message = '创建jwt文件';
         $this->BaseMyClass($file_name, $demo_name, $message);
     }
+
     //-----------------------------自定义方法文件------------------------------------//
 
+    private function CreateSupport()
+    {
+        $this->CreateHelper();
+        $this->CreateGetValueAttribute();
+    }
     private function CreateHelper()
     {
-        $content = file_get_contents('./stubs/HelperDemo.stub');
-        $project_path = $this->getBasePath();
-        $file_path = '/Helper.php';
-        $file_dir_path =  $project_path . $this->Helper_path  . $file_path;
-        $this->createFileSend($file_dir_path, $content, '创建自定义方法');
+        $file_name = 'Helper';
+        $demo_name = 'HelperDemo';
+        $message = '创建Helper文件';
+        $this->BaseSupport($file_name, $demo_name, $message);
     }
+    private function CreateGetValueAttribute()
+    {
+        $file_name = 'GetValueAttribute';
+        $demo_name = 'GetValueAttributeDemo';
+        $message = '创建GetValueAttribute文件';
+        $this->BaseSupport($file_name, $demo_name, $message);
+    }
+
     //修改KernelDemo文件
     private function updateKernel()
     {
@@ -240,6 +267,18 @@ class Installer
         // 执行文件复制操作
         $this->recursiveCopy($sourcePath, $destinationPath);
     }
+    //-----------------------------重写ServiceProvider文件件------------------------------------//
+
+    private function CreateRouteServiceProvider()
+    {
+        if ($this->BaseJianCe()) {
+            $content = file_get_contents('./stubs/RouteServiceProviderDemo.stub');
+            $project_path = $this->getBasePath();
+            $file_path = 'app/Providers/RouteServiceProvider.php';
+            $file_dir_path =  $project_path . $file_path;
+            $this->overwriteFileContent($file_dir_path, $content);
+        }
+    }
     //-----------------------------重写.env文件------------------------------------//
 
     private function CreateEnv()
@@ -251,6 +290,30 @@ class Installer
             $file_dir_path =  $project_path . $file_path;
             $this->overwriteFileContent($file_dir_path, $content);
         }
+    }
+    //-----------------------------重写composer.json文件------------------------------------//
+
+    private function CreateComposer()
+    {
+        $project_path = $this->getBasePath();
+
+        $content = file_get_contents($project_path . 'composer.json');
+        $arr  = json_decode($content, true);
+        $res = [
+            "app/Support/Helper.php",
+            "app/Support/GetValueAttribute.php"
+        ];
+        if (isset($arr['autoload']['files'])) {
+
+            $arr['autoload']['files'] = array_merge($arr['autoload']['files'], $res);
+        } else {
+            $arr['autoload']['files'] = $res;
+        }
+        $json_content = json_encode($arr, 256);
+        $project_path = $this->getBasePath();
+        $file_path = 'composer.json';
+        $file_dir_path =  $project_path . $file_path;
+        $this->overwriteFileContent($file_dir_path, $json_content);
     }
     private function BaseJianCe()
     {
@@ -270,6 +333,14 @@ class Installer
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->MyClass_path  . $file_path;
+        $this->createFileSend($file_dir_path, $content, $message);
+    }
+    private function BaseSupport($file_name, $demo_name, $message)
+    {
+        $content = file_get_contents('./stubs/' . $demo_name . '.stub');
+        $project_path = $this->getBasePath();
+        $file_path = '/' . $file_name . '.php';
+        $file_dir_path =  $project_path . $this->Support_path  . $file_path;
         $this->createFileSend($file_dir_path, $content, $message);
     }
     private function BaseMiddleware($file_name, $demo_name, $message = '')
