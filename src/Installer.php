@@ -99,7 +99,7 @@ class Installer
     //创建全局状态码
     private function ErrCode()
     {
-        $content = file_get_contents('./stubs/ErrCodeDemo.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/ErrCodeDemo.stub');
         $project_path = $this->getBasePath();
         $file_path = '/ErrCode.php';
         $file_dir_path =  $project_path . 'Exceptions'  . $file_path;
@@ -178,7 +178,7 @@ class Installer
     private function updateKernel()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/KernelDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/KernelDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/Http/Kernel.php';
             $file_dir_path =  $project_path . $this->MyClass_path  . $file_path;
@@ -195,7 +195,7 @@ class Installer
     }
     private function CreateApi()
     {
-        $content = file_get_contents('./stubs/ApiDemo.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/ApiDemo.stub');
         $project_path = $this->getBasePath();
         $file_path = '/api.php';
         $file_dir_path =  $project_path . $this->Config_path  . $file_path;
@@ -203,7 +203,7 @@ class Installer
     }
     private function CreateAdmin()
     {
-        $content = file_get_contents('./stubs/AdminDemo.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/AdminDemo.stub');
         $project_path = $this->getBasePath();
         $file_path = '/admin.php';
         $file_dir_path =  $project_path . $this->Config_path  . $file_path;
@@ -213,7 +213,7 @@ class Installer
     private function updateApp()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/AppDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/AppDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/app.php';
             $file_dir_path =  $project_path . $this->Config_path  . $file_path;
@@ -230,7 +230,7 @@ class Installer
     private function CreateAdminRoutes()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/AdminRoutesDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/AdminRoutesDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/admin.php';
             $file_dir_path =  $project_path . $this->routes_path  . $file_path;
@@ -240,7 +240,7 @@ class Installer
     private function CreateApiRoutes()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/ApiRoutesDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/ApiRoutesDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/api.php';
             $file_dir_path =  $project_path . $this->routes_path  . $file_path;
@@ -272,7 +272,7 @@ class Installer
     private function CreateRouteServiceProvider()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/RouteServiceProviderDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/RouteServiceProviderDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = 'app/Providers/RouteServiceProvider.php';
             $file_dir_path =  $project_path . $file_path;
@@ -284,7 +284,7 @@ class Installer
     private function CreateEnv()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents('./stubs/EnvDemo.stub');
+            $content = file_get_contents(__DIR__ . '/stubs/EnvDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '.env';
             $file_dir_path =  $project_path . $file_path;
@@ -329,7 +329,7 @@ class Installer
     }
     private function BaseMyClass($file_name, $demo_name, $message)
     {
-        $content = file_get_contents('./stubs/' . $demo_name . '.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->MyClass_path  . $file_path;
@@ -337,7 +337,7 @@ class Installer
     }
     private function BaseSupport($file_name, $demo_name, $message)
     {
-        $content = file_get_contents('./stubs/' . $demo_name . '.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->Support_path  . $file_path;
@@ -345,7 +345,7 @@ class Installer
     }
     private function BaseMiddleware($file_name, $demo_name, $message = '')
     {
-        $content = file_get_contents('./stubs/' . $demo_name . '.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->Middleware_path  . $file_path;
@@ -353,7 +353,7 @@ class Installer
     }
     private function BaseCommands($file_name, $demo_name, $message = '')
     {
-        $content = file_get_contents('./stubs/' . $demo_name . '.stub');
+        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->commands_path  . $file_path;
