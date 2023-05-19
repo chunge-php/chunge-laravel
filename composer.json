@@ -26,6 +26,15 @@
     "scripts": {
         "post-install-cmd": [
             "Chunge\\Laravel\\InstallCmd::send"
+        ],
+        "post-update-cmd": [
+            "Chunge\\Laravel\\InstallCmd::send"
+        ],
+        "post-package-update": [
+            "Chunge\\Laravel\\InstallCmd::send"
+        ],
+        "post-package-install": [
+            "Chunge\\Laravel\\InstallCmd::send"
         ]
     },
     "config": {
