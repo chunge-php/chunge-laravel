@@ -26,7 +26,8 @@ class Installer
         $this->CreateEnv();
         $this->CreateInstallJosinFile();
         $this->CreateComposer();
-        echo "执行成功 successfully!";
+        $this->CreateModels();
+        echo "执行成功 successfully!" . PHP_EOL;
     }
 
     //创建安装标识文件
@@ -324,6 +325,22 @@ class Installer
         $file_path = 'composer.json';
         $file_dir_path =  $project_path . $file_path;
         $this->overwriteFileContent($file_dir_path, $json_content);
+    }
+
+    private function CreateModels()
+    {
+        $file_name = 'BaseModel';
+        $demo_name = 'BaseModelDemo';
+        $message = '创建BaseModel文件';
+        $this->BaseModels($file_name, $demo_name, $message);
+    }
+    private function BaseModels($file_name, $demo_name, $message)
+    {
+        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
+        $project_path = $this->getBasePath();
+        $file_path = '/app/' . $file_name . '.php';
+        $file_dir_path =  $project_path  . $file_path;
+        $this->createFileSend($file_dir_path, $content, $message);
     }
     public function BaseJianCe()
     {

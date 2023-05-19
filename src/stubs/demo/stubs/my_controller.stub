@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Controllers\{{controller_name}}\v1;
+namespace App\Http\Controllers\{{controller_name}}\{{v}};
 
 use App\Http\Controllers\Controller;
-use App\Logic\{{controller_name}}\{{class_name}};
-use App\Http\Requests\{{controller_name}}\Up{{class_name}}Request;
+use App\Logic\{{controller_name}}\{{v}}\{{class_name}};
+use App\Http\Requests\{{controller_name}}\{{v}}\Up{{class_name}}Request;
 use App\Http\Requests\BaseIdRequest;
 use App\Http\Requests\BaseStateRequest;
 use Illuminate\Http\Request;

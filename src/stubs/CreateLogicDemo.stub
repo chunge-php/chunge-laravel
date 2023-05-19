@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Artisan;
 
 class CreateLogic extends Command
 {
-   /**
+    /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'create:logic {class_name} {controller_name} {describe} {model?}';
+    protected $signature = 'create:logic {class_name} {controller_name} {v} {describe} {model?}';
 
     /**
      * The console command description.
@@ -46,7 +46,8 @@ class CreateLogic extends Command
         $class_name = $args['class_name'];
         //是否创建模型层
         $model  = $args['model'];
-
+        //版本
+        $v = $args['v'] ?? 'v1';
         //描述
         $describe = $args['describe'];
         //创建模型层
@@ -54,10 +55,10 @@ class CreateLogic extends Command
             $this->createModel($class_name, $describe);
         }
         //创建逻辑层
-        $this->createLogic($controller_name, $class_name, $describe);
+        $this->createLogic($controller_name, $class_name, $describe, $v);
         //创建控制层
-        $this->createController($controller_name, $class_name, $describe);
-        $this->createRequest($controller_name, $class_name, $describe);
+        $this->createController($controller_name, $class_name, $describe,$v);
+        $this->createRequest($controller_name, $class_name, $describe,$v);
         //创建路由层
         $this->createRoutes($controller_name, $class_name, $describe);
         $this->info('一键创建逻辑成功 春哥牛逼' . logMyImg());
@@ -73,15 +74,16 @@ class CreateLogic extends Command
     /**
      * 控制层创建
      */
-    public function createController($controller_name, $class_name, $describe)
+    public function createController($controller_name, $class_name, $describe,$v='v1')
     {
         //文件地址
-        $logic_file = app_path() . '/Http/Controllers' . "/{$controller_name}" . '/v1/' . $class_name . 'Controller.php';
+        $logic_file = app_path() . '/Http/Controllers' . "/{$controller_name}" . "/$v/" . $class_name . 'Controller.php';
         $logic_path = dirname($logic_file); //返回路径中的目录部分
         //获取模板,替换变量
         $controller = file_get_contents(base_path('/stubs/my_controller.stub'));
         $controller_default = file_get_contents(base_path('/stubs/my_default_controller.stub'));
-        $source = str_replace('{{controller_name}}', $controller_name, $controller);
+        $source = str_replace('{{v}}', $v, $controller);
+        $source = str_replace('{{controller_name}}', $controller_name, $source);
         $source = str_replace('{{controller_default}}', $controller_default, $source);
         $source = str_replace('{{class_name}}', $class_name, $source);
         $source = str_replace('{{describe}}', $describe, $source);
@@ -90,16 +92,17 @@ class CreateLogic extends Command
     /**
      * 创建逻辑层
      */
-    public function createLogic($controller_name, $class_name, $describe = '')
+    public function createLogic($controller_name, $class_name, $describe = '', $v = 'v1')
     {
         //逻辑层文件地址
-        $logic_file = app_path() . '/Logic' . "/{$controller_name}/" . $class_name . '.php';
+        $logic_file = app_path() . '/Logic' . "/{$controller_name}/$v/" . $class_name . '.php';
         //命名空间
         $logic_path = dirname($logic_file); //返回路径中的目录部分
         //获取模板,替换变量
         $logic = file_get_contents(base_path('/stubs/my_logic.stub'));
         $logic_default = file_get_contents(base_path('/stubs/my_default_logic.stub'));
-        $source = str_replace('{{namespace}}', $controller_name, $logic);
+        $source = str_replace('{{v}}', $v, $logic);
+        $source = str_replace('{{namespace}}', $controller_name, $source);
         $source = str_replace('{{describe}}', $describe, $source);
         $source = str_replace('{{class_name}}', $class_name, $source);
         $source = str_replace('{{logic_default}}', $logic_default, $source);
@@ -109,16 +112,17 @@ class CreateLogic extends Command
     /**
      * 创建表单验证
      */
-    public function createRequest($controller_name, $class_name, $describe = '')
+    public function createRequest($controller_name, $class_name, $describe = '',$v='v1')
     {
         //逻辑层文件地址
-        $logic_file = app_path() . '/Http/Requests' . "/{$controller_name}/Up" . $class_name . 'Request.php';
+        $logic_file = app_path() . '/Http/Requests' . "/{$controller_name}/$v/Up" . $class_name . 'Request.php';
 
         //命名空间
         $logic_path = dirname($logic_file); //返回路径中的目录部分
         //获取模板,替换变量
         $request = file_get_contents(base_path('/stubs/my_request.stub'));
         $source = str_replace('{{controller_name}}', $controller_name, $request);
+        $source = str_replace('{{v}}', $v, $source);
         $source = str_replace('{{class_name}}', $class_name, $source);
         $source = str_replace('{{describe}}', $describe, $source);
         $this->createFileSend($logic_file, $logic_path, $source, '表单验证层');

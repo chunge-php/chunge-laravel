@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class CacheLog extends Command
 {
-   /**
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -48,9 +48,13 @@ class CacheLog extends Command
             Artisan::call('route:clear'); //清除路由缓存
             // Artisan::call('route:cache'); //清除路由缓存
             // Artisan::call('view:cache'); //清除视图缓存
-            // $info = getCurl('http://1.14.103.45:8001/api/v1/test');
+            // $info = getCurl('http://127.0.0.1/api/v1/test');
             // echo json_encode($info);
-            $this->info('缓存已清除' . logMyImg());
+            if (function_exists('logMyImg')) {
+                $this->info('缓存已清除' . logMyImg());
+            } else {
+                $this->info('缓存已清除');
+            }
         } else {
             if ($all == 'del') {
                 clearAllCache();
@@ -65,7 +69,11 @@ class CacheLog extends Command
             // Artisan::call('config:cache'); //清除配置缓存
             // Artisan::call('route:cache'); //清除路由缓存
             // Artisan::call('view:cache'); //清除视图缓存
-            $this->info('缓存已清除' . logMyImg());
+            if (function_exists('logMyImg')) {
+                $this->info('缓存已清除' . logMyImg());
+            } else {
+                $this->info('缓存已清除');
+            }
         }
     }
 }
