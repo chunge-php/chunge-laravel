@@ -20,6 +20,7 @@ class Installer
         $this->updateKernel();
         $this->CreateRouteServiceProvider();
         $this->CreateRoutes();
+        $this->CreateConfig();
         $this->CopyStubFile();
         $this->CopyRequestsFile();
         $this->CreateEnv();
