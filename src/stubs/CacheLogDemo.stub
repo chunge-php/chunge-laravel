@@ -41,13 +41,12 @@ class CacheLog extends Command
 
         $all = $this->argument('all');
         if (!$all) {
+            Artisan::call('cache:clear'); //清空应用缓存
+            Artisan::call('config:clear'); //移除配置缓存文件
+            Artisan::call('route:clear'); //移除路由缓存文件
 
-            Artisan::call('cache:clear'); //清除应用缓存
-            Artisan::call('config:clear'); //清除配置缓存
-            // Artisan::call('config:cache'); //清除配置缓存
-            Artisan::call('route:clear'); //清除路由缓存
-            // Artisan::call('route:cache'); //清除路由缓存
-            // Artisan::call('view:cache'); //清除视图缓存
+            Artisan::call('config:cache'); //合并所有的配置信息为一个，提高加载速度
+            Artisan::call('route:cache'); //生成路由缓存文件来提升路由效率
             // $info = getCurl('http://127.0.0.1/api/v1/test');
             // echo json_encode($info);
             if (function_exists('logMyImg')) {
@@ -61,14 +60,17 @@ class CacheLog extends Command
                 $this->info('删除缓存成功');
                 die;
             }
+       
+            Artisan::call('cache:clear'); //清空应用缓存
+            Artisan::call('config:clear'); //移除配置缓存文件
+            Artisan::call('route:clear'); //移除路由缓存文件
+
+            Artisan::call('config:cache'); //合并所有的配置信息为一个，提高加载速度
+            Artisan::call('route:cache'); //生成路由缓存文件来提升路由效率
             $this->info('文件重新加载中............');
             exec('composer dump-autoload'); //重新加载文件
             $this->info('文件重新加载成功............');
-            Artisan::call('cache:clear'); //清除应用缓存
-            Artisan::call('config:clear'); //清除配置缓存
-            Artisan::call('config:cache'); //清除配置缓存
-            Artisan::call('route:cache'); //清除路由缓存
-            // Artisan::call('view:cache'); //清除视图缓存
+
             if (function_exists('logMyImg')) {
                 $this->info('缓存已清除' . logMyImg());
             } else {

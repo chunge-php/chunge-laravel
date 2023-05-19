@@ -46,9 +46,9 @@ class InitTable extends Command
             if ($is == 'drq') {
                 $is = $this->ask('确认初始化数据库？(yes/no)');
                 if ($is == 'yes' || $is == 'Yes') {
-                    $database = $this->ask('请输入数据库名称：database (默认luru)');
+                    $database = $this->ask('请输入数据库名称：database (默认test)');
                     $username = $this->ask('请输入用户名：username (默认root)');
-                    $password = $this->ask('请输入密码：password (默认空)');
+                    $password = $this->ask('请输入密码：password (默认root)');
                     if (!empty($database)) {
                         $this->info('数据库：' . $database);
                     }
@@ -77,7 +77,7 @@ class InitTable extends Command
         // exec("php {$artisan} db:seed --class=DatabaseSeeder --force >> insert.log 2>&1 &");
         $this->info('成功.........');
     }
-    public function allTable($database = 'luru', $username = 'root', $db_pwd = 'root')
+    public function allTable($database = 'test', $username = 'root', $db_pwd = 'root')
     {
         $this->info('执行删库初始化中............');
         $this->info('文件重新加载中............');
@@ -87,26 +87,26 @@ class InitTable extends Command
         Artisan::call('key:generate'); //初始化秘钥
         $this->info('秘钥初始化成功');
         if (empty($database)) {
-            $database = env('DB_DATABASE');
+            $database = config('database.connections.mysql.database');
             $this->error('数据库：' . $database);
         }
         if (empty($username)) {
-            $username = env('DB_USERNAME');
+            $username =config('database.connections.mysql.username');
             $this->error('登陆账户：' . $username);
         }
         if (empty($db_pwd)) {
-            $db_pwd = env('DB_PASSWORD');
-            $this->error('登陆密码：空');
+            $db_pwd = config('database.connections.mysql.password');
+            $this->error('登陆密码：' . $db_pwd);
         }
         $this->createAppKey($database, $username, $db_pwd); //初始化key
-        Artisan::call('cache:clear'); //清除应用缓存
-        Artisan::call('route:cache'); //清除路由缓存
-        Artisan::call('config:cache'); //清除配置缓存
+        Artisan::call('cache:clear'); //清空应用缓存
+        Artisan::call('config:clear'); //移除配置缓存文件
+        Artisan::call('route:clear'); //移除路由缓存文件
         Artisan::call('view:cache'); //清除视图缓存
 
         $this->info('清除缓存成功^_^');
-        Artisan::call('cache:clear'); //清除应用缓存
-        Artisan::call('config:cache'); //清除配置缓存
+        Artisan::call('config:cache'); //合并所有的配置信息为一个，提高加载速度
+        Artisan::call('route:cache'); //生成路由缓存文件来提升路由效率
 
         $config   = config('database.connections.' . config('database.default'));
         $prefix = config('database.connections.mysql.prefix');

@@ -55,7 +55,8 @@ class Installer
         $this->Logic();
         //创建错误状态码
         $this->ErrCode();
-
+        //创建多语言文件
+        $this->CreateLangApi();
     }
     //创建中间件
     private function CreateMiddleware()
@@ -121,9 +122,17 @@ class Installer
     {
         $content = file_get_contents(__DIR__ . '/stubs/ErrCodeDemo.stub');
         $project_path = $this->getBasePath();
-        $file_path = '/ErrCode.php';
-        $file_dir_path =  $project_path . 'Exceptions'  . $file_path;
+        $file_path = '\ErrCode.php';
+        $file_dir_path =  $project_path . 'app\Exceptions'  . $file_path;
         $this->createFileSend($file_dir_path, $content, '创建全局状态码文件');
+    }
+    private function CreateLangApi()
+    {
+        $content = file_get_contents(__DIR__ . '/stubs/ApiLangDemo.stub');
+        $project_path = $this->getBasePath();
+        $file_path = '\api.php';
+        $file_dir_path =  $project_path . 'resources\lang\zh'  . $file_path;
+        $this->createFileSend($file_dir_path, $content, '创建全局多语言文件');
     }
     //---------------------------中间件------------------------------------//
     //创建api中间键
@@ -378,7 +387,6 @@ class Installer
         $file_dir_path =  $project_path   . $logic_file;
 
         if (file_exists($file_dir_path)) {
-            $this->error("已安装过");
             return false;
         }
         return true;
