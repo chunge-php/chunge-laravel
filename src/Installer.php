@@ -246,6 +246,17 @@ class Installer
     {
         $this->CreateApiRoutes();
         $this->CreateAdminRoutes();
+        $this->CreateWebRoutes();
+    }
+    private function CreateWebRoutes()
+    {
+        if ($this->BaseJianCe()) {
+            $content = file_get_contents(__DIR__ . '/stubs/WebRoutesDemo.stub');
+            $project_path = $this->getBasePath();
+            $file_path = '/web.php';
+            $file_dir_path =  $project_path . $this->routes_path  . $file_path;
+            $this->overwriteFileContent($file_dir_path, $content);
+        }
     }
     private function CreateAdminRoutes()
     {

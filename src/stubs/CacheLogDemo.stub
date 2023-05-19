@@ -66,8 +66,8 @@ class CacheLog extends Command
             $this->info('文件重新加载成功............');
             Artisan::call('cache:clear'); //清除应用缓存
             Artisan::call('config:clear'); //清除配置缓存
-            // Artisan::call('config:cache'); //清除配置缓存
-            // Artisan::call('route:cache'); //清除路由缓存
+            Artisan::call('config:cache'); //清除配置缓存
+            Artisan::call('route:cache'); //清除路由缓存
             // Artisan::call('view:cache'); //清除视图缓存
             if (function_exists('logMyImg')) {
                 $this->info('缓存已清除' . logMyImg());
