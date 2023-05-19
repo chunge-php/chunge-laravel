@@ -2,7 +2,7 @@
 /**
  * PHP实现jwt
  */
-namespace app\Myclass;
+namespace App\MyClass;
 
 class Jwt
 {
