@@ -4,12 +4,12 @@ namespace Chunge\Laravel;
 
 class Installer
 {
-    private $commands_path = '/app/Console/Commands';
-    private $Middleware_path = '/app/Http/Middleware';
-    private $MyClass_path = '/app/MyClass';
-    private $Support_path  = '/app/Support';
-    private $Config_path  = '/config';
-    private $routes_path  = '/routes';
+    private $commands_path = '\app\Console\Commands';
+    private $Middleware_path = '\app\Http\Middleware';
+    private $MyClass_path = '\app\MyClass';
+    private $Support_path  = '\app\Support';
+    private $Config_path  = '\config';
+    private $routes_path  = '\routes';
     public  function copyFiles()
     {
         echo '开始执行安装';
@@ -363,7 +363,7 @@ class Installer
     }
     private function BaseCommands($file_name, $demo_name, $message = '')
     {
-        $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
+        $content = file_get_contents(__DIR__ . '\stubs\\' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->commands_path  . $file_path;
@@ -380,18 +380,18 @@ class Installer
      */
     private function createFileSend($file_path, $source, $message = '')
     {
-        $logic_file = dirname($file_path); //返回路径中的目录部分
-        if (file_exists($logic_file)) {
+        $dir_file = dirname($file_path); //返回路径中的目录部分
+        if (file_exists($file_path)) {
             $this->error("{$message}文件已存在");
             return false;
         }
         //创建
-        if (file_exists($logic_file) === false) {
-            if (mkdir($logic_file, 0777, true) === false) {
-                $this->error("{$message}目录" . $logic_file . '没有写入权限');
+        if (file_exists($dir_file) === false) {
+            if (mkdir($dir_file, 0777, true) === false) {
+                $this->error("{$message}目录" . $dir_file . '没有写入权限');
                 return false;
             } else {
-                $this->error('创建：' . $logic_file);
+                $this->error('创建：' . $dir_file);
             }
         } else {
             $this->error('写入成功：' . $file_path);
