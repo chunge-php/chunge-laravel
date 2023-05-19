@@ -16,8 +16,9 @@
     if ($total < 1) {
       return array('total' => 0, 'list' => []);
     } else {
-      $list  = $where->orderBy('created_at', 'desc')
-        ->orderBy('updated_at', 'desc')
+      $list  = $where
+        ->latest()
+        ->latest('updated_at')
         ->limit($limit)
         ->offset($offset)
         ->get()
