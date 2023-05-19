@@ -179,10 +179,10 @@ class Installer
     private function updateKernel()
     {
         if ($this->BaseJianCe()) {
-            $content = file_get_contents(__DIR__ . '/stubs/KernelDemo.stub');
+            $content = file_get_contents(__DIR__ . '\stubs\KernelDemo.stub');
             $project_path = $this->getBasePath();
-            $file_path = '/Http/Kernel.php';
-            $file_dir_path =  $project_path . $this->MyClass_path  . $file_path;
+            $file_path = 'app/Http/Kernel.php';
+            $file_dir_path =  $project_path   . $file_path;
             $this->overwriteFileContent($file_dir_path, $content);
         }
     }
@@ -297,20 +297,29 @@ class Installer
     private function CreateComposer()
     {
         $project_path = $this->getBasePath();
-
         $content = file_get_contents($project_path . 'composer.json');
         $arr  = json_decode($content, true);
         $res = [
-            "app/Support/Helper.php",
-            "app/Support/GetValueAttribute.php"
+            "app\\Support\\Helper.php",
+            "app\\Support\\GetValueAttribute.php"
         ];
         if (isset($arr['autoload']['files'])) {
-
-            $arr['autoload']['files'] = array_merge($arr['autoload']['files'], $res);
+            foreach ($arr['autoload']['files'] as $v) {
+                foreach ($res as $ks => $vs) {
+                    if ($v == $vs) {
+                        unset($res[$ks]);
+                    }
+                }
+            }
+            if (count($res) > 0) {
+                $arr['autoload']['files'] = array_merge($arr['autoload']['files'], $res);
+            } else {
+                return true;
+            }
         } else {
             $arr['autoload']['files'] = $res;
         }
-        $json_content = json_encode($arr, 256);
+        $json_content = json_encode($arr, 125);
         $project_path = $this->getBasePath();
         $file_path = 'composer.json';
         $file_dir_path =  $project_path . $file_path;
