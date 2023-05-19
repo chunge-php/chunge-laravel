@@ -38,7 +38,7 @@ class Installer
     {
         $content  = json_encode([]);
         $project_path = $this->getBasePath();
-        $file_dir_path =  $project_path . 'store/install.json';
+        $file_dir_path =  $project_path . 'storage/install.json';
         $this->overwriteFileContent($file_dir_path, $content);
     }
 
@@ -362,7 +362,7 @@ class Installer
     }
     public function BaseJianCe()
     {
-        $logic_file = 'store/install.json';
+        $logic_file = 'storage/install.json';
         $project_path = $this->getBasePath();
         $file_dir_path =  $project_path   . $logic_file;
 
