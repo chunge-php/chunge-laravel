@@ -338,7 +338,7 @@ class Installer
     {
         $content = file_get_contents(__DIR__ . '/stubs/' . $demo_name . '.stub');
         $project_path = $this->getBasePath();
-        $file_path = '/app/' . $file_name . '.php';
+        $file_path = 'app\\Models\\' . $file_name . '.php';
         $file_dir_path =  $project_path  . $file_path;
         $this->createFileSend($file_dir_path, $content, $message);
     }
