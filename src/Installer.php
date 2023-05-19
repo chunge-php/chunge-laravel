@@ -319,7 +319,7 @@ class Installer
         } else {
             $arr['autoload']['files'] = $res;
         }
-        $json_content = json_encode($arr, 125);
+        $json_content = json_encode($arr);
         $project_path = $this->getBasePath();
         $file_path = 'composer.json';
         $file_dir_path =  $project_path . $file_path;

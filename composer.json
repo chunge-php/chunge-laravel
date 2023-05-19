@@ -23,6 +23,11 @@
         "php": "^7.3",
         "composer/installers": "^2.0"
     },
+    "scripts": {
+        "post-install-cmd": [
+            "Chunge\\Laravel\\InstallCmd::send"
+        ]
+    },
     "config": {
         "allow-plugins": {
             "composer/installers": true
