@@ -1,5 +1,5 @@
 <?php
-namespace App\Myclass;
+namespace app\Myclass;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;

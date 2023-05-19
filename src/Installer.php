@@ -10,6 +10,7 @@ class Installer
     private $Support_path  = '\app\Support';
     private $Config_path  = '\config';
     private $routes_path  = '\routes';
+    private $logic_path  = 'app\Logic';
     public  function copyFiles()
     {
         echo '开始执行安装';
@@ -27,6 +28,8 @@ class Installer
         $this->CreateInstallJosinFile();
         $this->CreateComposer();
         $this->CreateModels();
+        $this->CreateLogicBase();
+        $this->CreateLogicFileBase();
         echo "执行成功 successfully!" . PHP_EOL;
     }
 
@@ -52,6 +55,7 @@ class Installer
         $this->Logic();
         //创建错误状态码
         $this->ErrCode();
+
     }
     //创建中间件
     private function CreateMiddleware()
@@ -97,6 +101,20 @@ class Installer
         $demo_name = 'LogicDemo';
         $message = '创建逻辑层命令文件';
         $this->BaseCommands($file_name, $demo_name, $message);
+    }
+    private function CreateLogicBase()
+    {
+        $file_name = 'Logic';
+        $demo_name = 'BaseLogicDemo';
+        $message = '创建公用逻辑层文件';
+        $this->BaseLogic($file_name, $demo_name, $message);
+    }
+    private function CreateLogicFileBase()
+    {
+        $file_name = 'LogicFile';
+        $demo_name = 'LogicFileDemo';
+        $message = '创建公用LogicFile逻辑层文件';
+        $this->BaseLogic($file_name, $demo_name, $message);
     }
     //创建全局状态码
     private function ErrCode()
@@ -384,6 +402,14 @@ class Installer
         $project_path = $this->getBasePath();
         $file_path = '/' . $file_name . '.php';
         $file_dir_path =  $project_path . $this->commands_path  . $file_path;
+        $this->createFileSend($file_dir_path, $content, $message);
+    }
+    private function BaseLogic($file_name, $demo_name, $message = '')
+    {
+        $content = file_get_contents(__DIR__ . '\stubs\\' . $demo_name . '.stub');
+        $project_path = $this->getBasePath();
+        $file_path = '\\' . $file_name . '.php';
+        $file_dir_path =  $project_path . $this->logic_path  . $file_path;
         $this->createFileSend($file_dir_path, $content, $message);
     }
     private function getBasePath()
