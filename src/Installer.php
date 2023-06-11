@@ -30,8 +30,6 @@ class Installer
         $this->CreateModels();
         $this->CreateLogicBase();
         $this->CreateLogicFileBase();
-
-
         
         //创建安装记录标识
         $this->CreateInstallJosinFile();
