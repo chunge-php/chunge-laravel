@@ -228,12 +228,16 @@ class Installer
     }
     //-----------------------------配置层修改------------------------------------//
 
+   
     private function CreateConfig()
     {
         $this->CreateApi();
         $this->CreateAdmin();
         $this->updateApp();
+        $this->UpdateFilesystems();
     }
+
+  
     private function CreateApi()
     {
         $content = file_get_contents(__DIR__ . '/stubs/ApiDemo.stub');
@@ -257,6 +261,16 @@ class Installer
             $content = file_get_contents(__DIR__ . '/stubs/AppDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/app.php';
+            $file_dir_path =  $project_path . $this->Config_path  . $file_path;
+            $this->overwriteFileContent($file_dir_path, $content);
+        }
+    }
+    private function UpdateFilesystems()
+    {
+        if ($this->BaseJianCe()) {
+            $content = file_get_contents(__DIR__ . '/stubs/FilesystemsDemo.stub');
+            $project_path = $this->getBasePath();
+            $file_path = '/filesystems.php';
             $file_dir_path =  $project_path . $this->Config_path  . $file_path;
             $this->overwriteFileContent($file_dir_path, $content);
         }
