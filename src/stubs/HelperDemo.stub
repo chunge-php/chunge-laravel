@@ -2105,33 +2105,44 @@ function setTableForm($table_name, $data, $up = false)
     if (count($data) > 0) {
         foreach ($data as $k => $v) {
             if ($up == true && Schema::hasColumn($table_name, $k)) {
-                if ($v['type'] == 'integer') {
-                    Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
-                        $table->integer($k)->default($v['default'])->change();
-                    });
-                } elseif ($v['type'] == 'char') {
-                    Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
-                        $table->string($k, $v['leng'])->fixed(true)->default($v['default'])->change();
-                    });
-                } else {
+                if ($v['type'] == 'string' || $v['type'] == 'char') {
                     Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
                         $type = $v['type'];
                         $table->$type($k, $v['leng'])->default($v['default'])->change();
                     });
-                }
-            }
-
-            if (!Schema::hasColumn($table_name, $k)) {
-                if ($v['type'] == 'integer') {
+                } elseif ($v['type'] == 'text' || $v['type'] == 'longText'  || $v['type'] == 'json') {
                     Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
-                        $table->integer($k)->default($v['default'])->comment($v['comment']);
+                        $type = $v['type'];
+                        $table->$type($k)->nullable()->change();
                     });
                 } else {
                     Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
                         $type = $v['type'];
-                        $table->$type($k, $v['leng'])->default($v['default'])->comment($v['comment']);
+                        $table->$type($k)->default($v['default'])->change();
                     });
                 }
+               
+            }
+
+            if (!Schema::hasColumn($table_name, $k)) {
+
+                if ($v['type'] == 'string' || $v['type'] == 'char') {
+                    Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
+                        $type = $v['type'];
+                        $table->$type($k, $v['leng'])->default($v['default'])->comment($v['comment']);
+                    });
+                } elseif ($v['type'] == 'text' || $v['type'] == 'longText' || $v['type'] == 'json') {
+                    Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
+                        $type = $v['type'];
+                        $table->$type($k)->nullable()->comment($v['comment']);
+                    });
+                } else {
+                    Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
+                        $type = $v['type'];
+                        $table->$type($k)->default($v['default'])->comment($v['comment']);
+                    });
+                }
+              
             }
         }
     }

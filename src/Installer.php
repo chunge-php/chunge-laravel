@@ -235,6 +235,7 @@ class Installer
         $this->CreateAdmin();
         $this->updateApp();
         $this->UpdateFilesystems();
+        $this->UpConfigDatabase();
     }
 
   
@@ -261,6 +262,16 @@ class Installer
             $content = file_get_contents(__DIR__ . '/stubs/AppDemo.stub');
             $project_path = $this->getBasePath();
             $file_path = '/app.php';
+            $file_dir_path =  $project_path . $this->Config_path  . $file_path;
+            $this->overwriteFileContent($file_dir_path, $content);
+        }
+    }
+    private function UpConfigDatabase()
+    {
+        if ($this->BaseJianCe()) {
+            $content = file_get_contents(__DIR__ . '/stubs/ConfigDatabase.stub');
+            $project_path = $this->getBasePath();
+            $file_path = '/database.php';
             $file_dir_path =  $project_path . $this->Config_path  . $file_path;
             $this->overwriteFileContent($file_dir_path, $content);
         }
