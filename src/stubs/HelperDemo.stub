@@ -1490,7 +1490,7 @@ function getPwd($pwd = '888888')
 
 function db_fix()
 {
-    $str = config('database.db_fix') ?? '';
+    $str = config('app.db_fix') ?? '';
     return $str;
 }
 

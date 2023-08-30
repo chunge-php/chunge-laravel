@@ -33,6 +33,7 @@ return [
     'api_key' => '20221129!chunge',
     'admin_key' => '2022!chungeadmin',
     'jwt_time' => 24,
+    'db_fix' => env('DB_PREFIX', 'm_'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
