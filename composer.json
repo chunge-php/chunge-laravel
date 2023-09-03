@@ -1,6 +1,6 @@
 {
     "name": "chunge/laravel",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快速入手使用",
     "type": "library",
     "license": "MIT",
@@ -20,7 +20,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "composer/installers": "^2.0"
     },
     "scripts": {
