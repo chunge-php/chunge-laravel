@@ -18,10 +18,6 @@ class Logic
   public const DELETE_YES = 1; //回收站
   public const DELETE_NO = 0; //正常
 
-  public const role_type_server = 1; //服务商角色
-  public const role_type_merchant = 2; //代理商角色
-  public const role_type_staff = 3; //员工角色
-  public const role_type_store = 4; //店铺角色
   public function __construct()
   {
   }
