@@ -57,10 +57,10 @@ class CreateLogic extends Command
         //创建逻辑层
         $this->createLogic($controller_name, $class_name, $describe, $v);
         //创建控制层
-        $this->createController($controller_name, $class_name, $describe,$v);
-        $this->createRequest($controller_name, $class_name, $describe,$v);
+        $this->createController($controller_name, $class_name, $describe, $v);
+        $this->createRequest($controller_name, $class_name, $describe, $v);
         //创建路由层
-        $this->createRoutes($controller_name, $class_name, $describe,$v);
+        $this->createRoutes($controller_name, $class_name, $describe, $v);
         $this->info('一键创建逻辑成功 春哥牛逼' . logMyImg());
     }
     /**
@@ -74,7 +74,7 @@ class CreateLogic extends Command
     /**
      * 控制层创建
      */
-    public function createController($controller_name, $class_name, $describe,$v='v1')
+    public function createController($controller_name, $class_name, $describe, $v = 'v1')
     {
         //文件地址
         $logic_file = app_path() . '/Http/Controllers' . "/{$controller_name}" . "/$v/" . $class_name . 'Controller.php';
@@ -112,7 +112,7 @@ class CreateLogic extends Command
     /**
      * 创建表单验证
      */
-    public function createRequest($controller_name, $class_name, $describe = '',$v='v1')
+    public function createRequest($controller_name, $class_name, $describe = '', $v = 'v1')
     {
         //逻辑层文件地址
         $logic_file = app_path() . '/Http/Requests' . "/{$controller_name}/$v/Up" . $class_name . 'Request.php';
@@ -130,7 +130,7 @@ class CreateLogic extends Command
     /**
      * 创建路由
      */
-    public function createRoutes($controller_name, $class_name, $describe,$v)
+    public function createRoutes($controller_name, $class_name, $describe, $v)
     {
         $use_controller_path =  'use App\Http\Controllers' . "\\{$controller_name}\\" . "$v\\" . $class_name . 'Controller;';
 
@@ -157,6 +157,7 @@ class CreateLogic extends Command
             $this->error('路由层追加失败！');
             exit;
         }
+        $this->createRoutesDescription($controller_name, $controller_name_str, $describe, $v);
         $this->info('文件重新加载中............');
         exec('composer dump-autoload'); //重新加载文件
         $this->info('文件重新加载成功............');
@@ -165,6 +166,38 @@ class CreateLogic extends Command
         Artisan::call('config:cache'); //清除配置缓存
         Artisan::call('view:cache'); //清除视图缓存
         $this->info('缓存已清除');
+    }
+    /** 创建路由描述 */
+    public function createRoutesDescription($controller_name, $controller_name_str, $describe, $verison)
+    {
+        $controller_name =  strtolower($controller_name);
+        $lang = ['en', 'zh'];
+        foreach ($lang as $v) {
+            // 定义文件路径
+            $file = resource_path("lang/$v/route_description.php");
+            // 获取当前文件的内容，如果文件不存在则返回一个空数组
+            $currentData = file_exists($file) ? require $file : [];
+            $newData =  [
+                $controller_name . '.' . $controller_name_str . '.index' => $describe . '-列表',
+                $controller_name . '.' . $controller_name_str . '.create' => $describe . '-创建',
+                $controller_name . '.' . $controller_name_str . '.show' => $describe . '-详情',
+                $controller_name . '.' . $controller_name_str . '.destroy' => $describe . '-删除',
+            ];
+            if (isset($currentData[$controller_name . '.' . $verison])) {
+                $currentData[$controller_name . '.' . $verison] = array_merge($currentData[$controller_name . '.' . $verison], $newData);
+            } else {
+                $currentData[$controller_name . '.' . $verison] = $newData;
+            }
+
+            // 如果文件所在的目录不存在，我们需要创建它
+            if (!is_dir(dirname($file))) {
+                mkdir(dirname($file), 0755, true);
+            }
+            // 将合并后的数组写回到文件中
+            $exportedData = '<?php return ' . var_export($currentData, true) . ';';
+            file_put_contents($file, $exportedData);
+            $this->info('路由描述追加成功');
+        }
     }
     /**
      * 执行文件创建
