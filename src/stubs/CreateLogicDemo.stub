@@ -69,7 +69,7 @@ class CreateLogic extends Command
     public function createModel($class_name, $describe = '')
     {
         //模型层文件地址
-        Artisan::call("make:model Models/{$class_name} -fm"); //清除视图缓存
+        Artisan::call("make:model {$class_name} -fm"); //清除视图缓存
     }
     /**
      * 控制层创建

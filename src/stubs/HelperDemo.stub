@@ -1668,6 +1668,25 @@ function getWeek($date)
     // return $weekArr[$number_wk];
     return $number_wk;
 }
+/** 计算开始时间到结束时间之间间隔多少小时 */
+function hoursDifference($date1, $date2)
+{
+    $timestamp1 = strtotime($date1);
+    $timestamp2 = strtotime($date2);
+
+    $diffInSeconds = $timestamp2 - $timestamp1;
+
+    return (int)($diffInSeconds / 3600);  // 返回整数小时数
+}
+/** 小时减去后生成秒 */
+
+function differenceInSeconds($hour1, $hour2)
+{
+    $hour1InSeconds = $hour1 * 60 * 60;
+    $hour2InSeconds = $hour2 * 60 * 60;
+
+    return round($hour1InSeconds - $hour2InSeconds);
+}
 /**
  * 计算开始时间到结束时间之间的分钟数
  */
@@ -2121,7 +2140,6 @@ function setTableForm($table_name, $data, $up = false)
                         $table->$type($k)->default($v['default'])->change();
                     });
                 }
-               
             }
 
             if (!Schema::hasColumn($table_name, $k)) {
@@ -2131,7 +2149,7 @@ function setTableForm($table_name, $data, $up = false)
                         $type = $v['type'];
                         $table->$type($k, $v['leng'])->default($v['default'])->comment($v['comment']);
                     });
-                } elseif ($v['type'] == 'text' || $v['type'] == 'longText' || $v['type'] == 'json') {
+                } elseif ($v['type'] == 'timestamp' || $v['type'] == 'text' || $v['type'] == 'longText' || $v['type'] == 'json') {
                     Schema::table($table_name, function (Blueprint $table) use ($k, $v) {
                         $type = $v['type'];
                         $table->$type($k)->nullable()->comment($v['comment']);
@@ -2142,7 +2160,6 @@ function setTableForm($table_name, $data, $up = false)
                         $table->$type($k)->default($v['default'])->comment($v['comment']);
                     });
                 }
-              
             }
         }
     }

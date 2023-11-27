@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\MyClass\CreateDatabase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
@@ -46,9 +47,9 @@ class InitTable extends Command
             if ($is == 'drq') {
                 $is = $this->ask('确认初始化数据库？(yes/no)');
                 if ($is == 'yes' || $is == 'Yes') {
-                    $database = $this->ask('请输入数据库名称：database (默认test)');
-                    $username = $this->ask('请输入用户名：username (默认root)');
-                    $password = $this->ask('请输入密码：password (默认root)');
+                    $database = $this->ask('请输入数据库名称：database (默认' . config('database.connections.mysql.database') . ')');
+                    $username = $this->ask('请输入用户名：username (默认' . config('database.connections.mysql.username') . ')');
+                    $password = $this->ask('请输入密码：password (默认' . config('database.connections.mysql.password') . ')');
                     if (!empty($database)) {
                         $this->info('数据库：' . $database);
                     }
@@ -91,7 +92,7 @@ class InitTable extends Command
             $this->error('数据库：' . $database);
         }
         if (empty($username)) {
-            $username =config('database.connections.mysql.username');
+            $username = config('database.connections.mysql.username');
             $this->error('登陆账户：' . $username);
         }
         if (empty($db_pwd)) {
@@ -118,64 +119,16 @@ class InitTable extends Command
             $table = $config['database'];
             $this->info('数据库创建中.........');
             mysqli_query($conn, "drop database `{$table}`");
-            mysqli_query($conn, "CREATE DATABASE `{$table}` CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+            mysqli_query($conn, "CREATE DATABASE `{$table}` CHARSET=utf8mb4 COLLATE=utf8mb4_bin");
             $this->info('创建数据库成功^_^');
             $artisan = base_path('artisan');
             $this->info('数据库迁移中.........');
             exec("php {$artisan} migrate --force >> insert.log 2>&1 &");
-            sleep(2);
-            exec("php {$artisan} db:seed --class=DatabaseSeeder --force >> insert.log 2>&1 &");
+            sleep(5);
+            // exec("php {$artisan} db:seed --class=DatabaseSeeder --force >> insert.log 2>&1 &");
+            $CreateDatabaseModel =  new CreateDatabase();
+            $CreateDatabaseModel->createInitServe();
             $this->info('数据库迁移成功^_^');
-
-            /**
-             * 加载sql文件
-             */
-            if (file_exists(base_path($table . '.sql'))) {
-                $sql = file_get_contents(base_path($table . '.sql'));
-                $rows = array_filter(explode(";", $sql));
-                DB::beginTransaction();
-                foreach ($rows as $row) {
-                    if (empty($row) || $row === "\n") {
-                        continue;
-                    }
-                    DB::unprepared($row . ";");
-                }
-                DB::commit();
-            }
-            sleep(1);
-            $this->info('数据库迁移成功^_^');
-            $file_path = base_path('address_configs.php');
-            if (file_exists($file_path)) {
-                $arr = require($file_path);
-                $total = count($arr);
-                if ($total > 0) {
-                    $new_arr = array();
-                    foreach ($arr as $k => $v) {
-
-                        if ($k % 50 == 0) {
-                            DB::table('address_configs')->insert($new_arr);
-                            $new_arr = array();
-                        } else {
-                            $new_arr[] = $v;
-                        }
-                    }
-                    if (count($new_arr) > 0) {
-                        DB::table('address_configs')->insert($new_arr);
-                    }
-                }
-            }
-            // if (file_exists(base_path('address.sql'))) {
-            //     $sql = file_get_contents(base_path('address.sql'));
-            //     $rows = array_filter(explode(";", $sql));
-            //     DB::beginTransaction();
-            //     foreach ($rows as $row) {
-            //         if (empty($row) || $row === "\n") {
-            //             continue;
-            //         }
-            //         DB::unprepared($row . ";");
-            //     }
-            //     DB::commit();
-            // }
             $this->info('已经初始化了! 要是你误操作 没备份旧数据库 那就准备跑路吧兄弟! ^_^');
         } catch (\Exception  $e) {
             $this->info('初始化异常 可以向春哥贿赂点质询费就可以了!..' . $e->getMessage());

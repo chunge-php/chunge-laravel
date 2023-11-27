@@ -30,10 +30,14 @@ class Installer
         $this->CreateModels();
         $this->CreateLogicBase();
         $this->CreateLogicFileBase();
-        
+
         //创建安装记录标识
         $this->CreateInstallJosinFile();
         echo "执行成功 successfully!" . PHP_EOL;
+        echo "开始卸载 chunge/laravel !" . PHP_EOL;
+        $path =  'composer remove chunge/laravel';
+        exec($path);
+        echo "卸载成功 chunge/laravel !" . PHP_EOL;
     }
 
     //创建安装标识文件
@@ -176,12 +180,20 @@ class Installer
     {
         $this->CreateJwt();
         $this->CreateWxPay();
+        $this->CreateAES();
     }
     private function CreateWxPay()
     {
         $file_name = 'WxPay';
         $demo_name = 'WxPayDemo';
         $message = '创建WxPay文件';
+        $this->BaseMyClass($file_name, $demo_name, $message);
+    }
+    private function CreateAES()
+    {
+        $file_name = 'AES';
+        $demo_name = 'AESDemo';
+        $message = '创建AES文件';
         $this->BaseMyClass($file_name, $demo_name, $message);
     }
     //加密解密jwt文件
@@ -228,7 +240,7 @@ class Installer
     }
     //-----------------------------配置层修改------------------------------------//
 
-   
+
     private function CreateConfig()
     {
         $this->CreateApi();
@@ -237,7 +249,7 @@ class Installer
         $this->UpdateFilesystems();
     }
 
-  
+
     private function CreateApi()
     {
         $content = file_get_contents(__DIR__ . '/stubs/ApiDemo.stub');
@@ -265,7 +277,7 @@ class Installer
             $this->overwriteFileContent($file_dir_path, $content);
         }
     }
- 
+
     private function UpdateFilesystems()
     {
         if ($this->BaseJianCe()) {
