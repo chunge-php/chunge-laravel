@@ -375,6 +375,7 @@ class Installer
 
     private function CreateComposer()
     {
+        
         $project_path = $this->getBasePath();
         $content = file_get_contents($project_path . 'composer.json');
         $arr  = json_decode($content, true);
