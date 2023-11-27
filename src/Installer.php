@@ -11,6 +11,7 @@ class Installer
     private $Config_path  = '\config';
     private $routes_path  = '\routes';
     private $logic_path  = 'app\Logic';
+
     public  function copyFiles()
     {
         echo '开始执行安装';
