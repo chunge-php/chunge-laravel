@@ -27,7 +27,6 @@ class Installer
         $this->CopyRequestsFile();
         $this->CreateEnv();
         $this->CreateDatabase();
-        $this->CreateComposer();
         $this->CreateModels();
         $this->CreateLogicBase();
         $this->CreateLogicFileBase();
@@ -39,6 +38,7 @@ class Installer
         $path =  'composer remove chunge/laravel';
         exec($path);
         echo "卸载成功 chunge/laravel !" . PHP_EOL;
+        $this->CreateComposer();
     }
 
     //创建安装标识文件
@@ -379,8 +379,8 @@ class Installer
         $content = file_get_contents($project_path . 'composer.json');
         $arr  = json_decode($content, true);
         $res = [
-            "app\\Support\\Helper.php",
-            "app\\Support\\GetValueAttribute.php"
+            stripcslashes("app\\Support\\Helper.php"),
+            stripcslashes("app\\Support\\GetValueAttribute.php")
         ];
         if (isset($arr['autoload']['files'])) {
             foreach ($arr['autoload']['files'] as $v) {
@@ -398,7 +398,7 @@ class Installer
         } else {
             $arr['autoload']['files'] = $res;
         }
-        $json_content = json_encode($arr);
+        $json_content = json_encode($arr, JSON_UNESCAPED_SLASHES);
         $project_path = $this->getBasePath();
         $file_path = 'composer.json';
         $file_dir_path =  $project_path . $file_path;
