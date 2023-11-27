@@ -379,9 +379,12 @@ class Installer
         $content = file_get_contents($project_path . 'composer.json');
         $arr  = json_decode($content, true);
         $res = [
-            stripcslashes("app\\Support\\Helper.php"),
-            stripcslashes("app\\Support\\GetValueAttribute.php")
+            "app\Support\Helper.php",
+            "app\Support\GetValueAttribute.php"
         ];
+        if (isset($arr['require']['chunge/laravel'])) {
+            unset($arr['require']['chunge/laravel']);
+        }
         if (isset($arr['autoload']['files'])) {
             foreach ($arr['autoload']['files'] as $v) {
                 foreach ($res as $ks => $vs) {
