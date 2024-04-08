@@ -1,7 +1,7 @@
 {
     "name": "chunge/laravel",
-    "version": "2.1.6",
-    "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快速入手使用3",
+    "version": "2.1.7",
+    "description": "用于laravel框架在初次安装的时候建立基本的运行结构以便快速入手使用4",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -23,24 +23,6 @@
         "php": "^7.3|^8.0",
         "composer/installers": "^2.0",
         "laravel/framework": "^8.0"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "Chunge\\Laravel\\InstallCmd::send"
-        ],
-        "post-update-cmd": [
-            "Chunge\\Laravel\\InstallCmd::send"
-        ],
-        "post-package-update": [
-            "Chunge\\Laravel\\InstallCmd::send"
-        ],
-        "post-package-install": [
-            "Chunge\\Laravel\\InstallCmd::send"
-        ]
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true
-        }
     }
+   
 }
