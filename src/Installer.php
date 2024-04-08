@@ -32,7 +32,6 @@ class Installer
         $this->CreateModels();
         $this->CreateLogicBase();
         $this->CreateLogicFileBase();
-
         //创建安装记录标识
         $this->CreateInstallJosinFile();
         echo "执行成功 successfully!" . PHP_EOL;
@@ -45,7 +44,6 @@ class Installer
     }
     public function CopyServicesDir()
     {
-        
         $sourcePath = __DIR__ . '/stubs/demo/stubs/Controller'; // 指定要复制的文件夹路径
         $project_path = $this->getBasePath();
         $destinationPath = $project_path . '/app/Http/Controllers';
