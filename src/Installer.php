@@ -15,6 +15,7 @@ class Installer
     public  function copyFiles()
     {
         echo '开始执行安装';
+        
         $this->createCommands();
         $this->CreateMiddleware();
         $this->CreateMyClass();
