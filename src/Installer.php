@@ -15,7 +15,6 @@ class Installer
     public  function copyFiles()
     {
         echo '开始执行安装';
-        
         $this->createCommands();
         $this->CreateMiddleware();
         $this->CreateMyClass();
@@ -46,6 +45,7 @@ class Installer
     }
     public function CopyServicesDir()
     {
+        
         $sourcePath = __DIR__ . '/stubs/demo/stubs/Controller'; // 指定要复制的文件夹路径
         $project_path = $this->getBasePath();
         $destinationPath = $project_path . '/app/Http/Controllers';
